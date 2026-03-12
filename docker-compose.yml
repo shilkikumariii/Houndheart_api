@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+      - "443:443"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
+      - AzureBlobStorage__ConnectionString=${AZURE_STORAGE_CONNECTION_STRING}
+      - AzureAd__ClientSecret=${AZURE_AD_CLIENT_SECRET}
+      - Stripe__SecretKey=${STRIPE_SECRET_KEY}
+      - Jwt__Key=${JWT_KEY}
+    volumes:
+      - ./wwwroot/uploads:/app/wwwroot/uploads
+    restart: unless-stopped
